@@ -1,0 +1,9 @@
+#!/bin/sh
+sudo nano /etc/issue
+sudo nano /etc/lsb-release 
+sudo nano /etc/os-release
+sudo nano /etc/live-installer/install.conf 
+sudo nano /etc/network/interfaces
+sudo nano /usr/lib/bbqsnapshot/iso/isolinux/isolinux.cfg 
+sudo nano /etc/default/grub.d/linuxbbq.cfg
+sudo ncdu /home/work

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+INPUT=/tmp/input.$$
+
+dialog --backtitle "BBQ Nvidia" --title "Choose your nVidia card" --menu "If you are not sure, check inxi or lspci." 20 55 15 \
+        6 "GeForce >=6xxx" \
+        5 "GeForce <=5xxx" \
+        4 "GeForce <=4xxx" \
+        2 "GeForce <=2xxx" \
+	r "Reload the nvidia module" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+        6) cmd=":sudo /usr/bin/tonvidia && apt-get install nvidia-kernel-source nvidia-kernel-common nvidia-kernel-dkms && sudo apt-get install nvidia-glx && echo Reboot";;
+        5) cmd="sudo /usr/bin/tonvidia && sudo m-a a-i nvidia-kernel-legacy-173xx-source && sudo apt-get install nvidia-glx-legacy-173xx nvidia-kernel-legacy-173xx-dkms";;
+        4) cmd="sudo /usr/bin/tonvidia && sudo m-a a-i nvidia-kernel-legacy-96xx-source && sudo apt-get install nvidia-glx-legacy-96xx nvidia-kernel-legacy-96xx-dkms";;
+        2) cmd="sudo /usr/bin/tonvidia && sudo m-a a-i nvidia-kernel-legacy-71xx-source && sudo apt-get install nvidia-glx-legacy-71xx nvidia-kernel-legacy-71xx-dkms";;
+        r) cmd="sudo modprobe nvidia && echo Reboot";;
+esac
+eval exec $cmd

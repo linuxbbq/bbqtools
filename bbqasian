@@ -1,0 +1,29 @@
+#!/bin/bash
+# Asian language support
+
+choice=$(yad --image=/usr/share/icons/bbqtux2.png --list --height=650 --width=570 --button="Exit:2" --button="gtk-ok:0" --title="LinuxBBQ Asian Language Support" --text="Please choose the language set." --column="Selection" "Simplified Chinese Fonts & iBus Pinyin IME" "Traditional Chinese Fonts & iBus Chewing IME" "Japanese Fonts & iBus Anthy IME" "Korean Fonts & iBus Hangul IME" "Chinese manual pages" "Japanese manual pages" "Chinese Simplified Desktop" "Chinese Traditional Desktop" "Japanese Desktop" "Exit")
+ret=$?
+
+
+[[ $ret -eq 1 ]] && exit 0
+
+if [[ $ret -eq 2 ]]; then
+    exit 0
+fi
+
+case $choice in
+"Simplified Chinese Fonts & iBus Pinyin IME") sudo apt-get install -y ibus ibus-gtk ibus-pinyin xfonts-wqy im-config && sudo ibus-daemon && yad --text="Log out and back!";;
+"Traditional Chinese Fonts & iBus Chewing IME") sudo apt-get install -y ibus ibus-gtk ibus-chewing im-config xfonts-wqy && sudo ibus-daemon && yad --text="Log out and back!";;
+"Japanese Fonts & iBus Anthy IME") sudo apt-get install -y ibus ibus-gtk ibus-anthy im-config xfonts-wqy ttf-sazanami-gothic ttf-sazanami-mincho && sudo ibus-daemon && yad --text="Log out and back!";;
+"Korean Fonts & iBus Hangul IME") sudo apt-get install -y ibus ibus-hangul im-config ttf-unfonts-core && sudo ibus-daemon && yad --text="Log out and back!";;
+"Chinese manual pages") sudo apt-get install -y manpages-zh ;;
+"Japanese manual pages") sudo apt-get install -y manpages-ja ;;
+"Chinese Simplified Desktop") sudo apt-get install -y task-chinese-s-desktop ;; 
+"Chinese Traditional Desktop") sudo apt-get install -y task-chinese-t-desktop ;;
+"Japanese Desktop") sudo apt-get install -y task-japanese-desktop ;;
+"Korean Desktop") sudo apt-get install -y task-korean-desktop ;;
+"Exit") exit 0;;
+esac
+
+#bbqsys
+

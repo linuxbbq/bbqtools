@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+# Clone //github repos to ~/git
+
+clear
+reset
+
+cd /home/$USER/git
+
+INPUT=/tmp/menu.sh.$$
+
+dialog --clear
+
+function mainmenu(){
+	dialog --backtitle "LinuxBBQ - Grillers Hub" --nocancel --title "Clones from //github to $HOME/git" --menu " " 0 0 0 \
+	a "dkeg:scripts" \
+	b "dkeg:colors" \
+	c "pidsley:codemangler" \
+	d "pidsley:windowmangler" \
+	e "debianjoe:nullwm" \
+	f "debianjoe:roaster" \
+	g "wuxmedia:dotfiles" \
+	h "wuxmedia:xcolors" \
+	i "ivanovnegro:Config-files" \
+	j "johnraff:cb-netinstall" \
+	k "johnraff:cb-xfce-netinstall" \
+	l "xaosfiftytwo:bash-scripts" \
+	m "xaosfiftytwo:emacs-config" \
+	n "machinebacon:linuxbbq" \
+	o "machinebacon:sys2iso" \
+	p "linuxbbq:xcolors" \
+	q "linuxbbq:toolbox" \
+	r "custom 1" \
+	s "custom 2" \
+	t "custom 3" \
+	u "custom 4" \
+	v "custom 5" \
+	w "custom 6" \
+	y "edit this file" \
+	x "Exit" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	a) git clone https://github.com/dkeg/scripts.git ;;
+	b) git clone https://github.com/dkeg/colors.git ;;
+	c) git clone https://github.com/pidsley/codemangler.git ;;
+	d) git clone https://github.com/pidsley/windowmangler.git ;;
+	e) git clone https://github.com/debianjoe/nullwm.git ;;
+	f) git clone https://github.com/debianjoe/roaster.git ;;
+	g) git clone https://github.com/wuxmedia/dotfiles.git ;;
+	h) git clone https://github.com/wuxmedia/xcolors.git ;;
+	i) git clone https://github.com/ivanovnegro/Config-files.git ;;
+	j) git clone https://github.com/johnraff/cb-netinstall.git ;;
+	k) git clone https://github.com/johnraff/cb-xfce-netinstall.git ;;
+	l) git clone https://github.com/xaosfiftytwo/bash-scripts.git ;;
+	m) git clone https://github.com/xaosfiftytwo/emacs-config.git ;;
+	n) git clone https://github.com/machinebacon/linuxbbq.git ;;
+	o) git clone https://github.com/machinebacon/sys2iso.git ;;
+	p) git clone https://github.com/linuxbbq/xcolors.git ;;
+	q) git clone https://github.com/linuxbbq/toolbox.git ;;
+	r) git clone https://github.com/ ;;
+	s) git clone https://github.com/ ;;
+	t) git clone https://github.com/ ;;
+	u) git clone https://github.com/ ;;
+	v) git clone https://github.com/ ;;
+	w) git clone https://github.com/ ;;
+	y) sudo nano /usr/local/bin/bbqgit ;;
+	x) exit 0 ;;
+esac
+mainmenu
+}
+
+[ -f $INPUT ] && rm $INPUT
+
+clear
+mainmenu

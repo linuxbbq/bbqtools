@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# The BBQ CLI Games Menu
+# January 2014 <bacon@linuxbbq.org>
+
+# set fancy colors
+# using .dialogrc
+
+# set var
+INPUT=/tmp/menu.sh.$$
+
+function games(){
+dialog --backtitle "LinuxBBQ - Start" --title "Games" --menu " \n" 0 0 0 \
+	G "Curse of War" \
+	b "Cavez Of Phear" \
+	C "Scribble" \
+	a "bastet" \
+	A "empire" \
+	F "rogue" \
+	c "ninvaders" \
+	d "freesweep"\
+	e "pacman" \
+	f "adventure" \
+	g "phantasia" \
+	h "worm" \
+	i "cribbage" \
+	j "snake" \
+	k "wargames" \
+	l "sail" \
+	m "robots" \
+	n monop \
+	o boggle \
+	p hangman \
+	q hack \
+	r backgammon \
+	s mille \
+	t canfield \
+	u wump \
+	v tetris \
+	w gomoku \
+	y trek \
+	z battlestar \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	G) curseofwar;;
+	C) scribble;;
+	b) phear;;
+	a) bastet;;
+	F) rogue;;
+	A) empire;;
+	c) ninvaders;;
+	d) freesweep;;
+	e) pacman;;
+	f) adventure;;
+	g) phantasia;;
+	h) worm;;
+	i) cribbage;;
+	j) snake;;
+	k) clear && wargames && read ;;
+	l) sail;;
+	m) robots;;
+	n) monop;;
+	o) boggle;;
+	p) hangman;;
+	q) hack;;
+	r) backgammon;;
+	s) mille;;
+	t) canfield;;
+	u) wump;;
+	v) tetris;;
+	w) gomoku;;
+	y) trek;;
+	z) battlestar;;
+	x) exit 0;;
+esac
+games
+}
+
+games
+clear &&
+exit 0

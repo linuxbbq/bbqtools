@@ -1,0 +1,56 @@
+#!/bin/bash
+action=$(yad --width 300 --title "LinuxBBQ X Tools" \
+	--image=user-info \
+	--button="Xclock:9" \
+	--button="Xditview:8" \
+	--button="Xeyes:7" \
+	--button="Xfontsel:6" \
+	--button="Xcalc:5" \
+	--button="Xedit:4" \
+	--button="Xload:3" \
+	--button="Xterm:2" \
+	--button="Xman:1" \
+	--button="gtk-close:0" \
+	--text "Select X application" \
+)
+ret=$?
+
+[[ $ret -eq 0 ]] && exit 0
+
+if [[ $ret -eq 9 ]]; then
+	xclock -hl red -hd white -norender &
+fi
+
+if [[ $ret -eq 8 ]]; then
+	xditview &
+fi
+
+if [[ $ret -eq 7 ]]; then
+	xeyes -fg black &
+fi
+
+if [[ $ret -eq 6 ]]; then
+	xfontsel &
+fi
+
+if [[ $ret -eq 1 ]]; then
+	xman &
+fi
+
+if [[ $ret -eq 2 ]]; then
+	xterm &
+fi
+
+if [[ $ret -eq 3 ]]; then
+	xload &
+fi
+
+if [[ $ret -eq 4 ]]; then
+	xedit &
+fi
+
+if [[ $ret -eq 5 ]]; then
+	xcalc &
+fi
+
+exit 0

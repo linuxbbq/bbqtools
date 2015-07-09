@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# A simple dialog to start sessions via starter scripts
+
+
+RELEASE_NAME='Howmslice'
+INPUT=/tmp/menu.sh.$$
+
+function mainmenu(){
+	dialog --backtitle "LinuxBBQ $RELEASE_NAME" --nocancel --title "Select your session. Switch to another TTY for a standard login prompt." --menu " " 0 0 0 \
+	x "Start X session" \
+	t "tmux session" \
+	b "bash prompt" \
+	c "Change color theme" \
+	i "Browse the internet" \
+	s "Set up network" \
+	l "Radio" \
+	e "Edit this menu" \
+	9 "Reboot" \
+	0 "Poweroff"  2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+
+case $menuitem in
+	x) startx ;;
+	i) links http://startpage.com ;;
+	c) fbcolors;;
+	b) bash ;;
+	e) nano /usr/local/bin/bbqlogin && exit;;
+	s) sudo ceni;;
+	l) bbqownradio;;
+	t) tmux;;
+	0) sudo /sbin/poweroff;;
+	9) sudo /sbin/reboot;;
+	esac
+}
+
+
+[ -f $INPUT ] && rm $INPUT
+
+mainmenu

@@ -1,0 +1,33 @@
+#!/bin/bash
+# BBQOWNROADIO
+. /usr/share/doc/dialog/examples/setup-vars
+. /usr/share/doc/dialog/examples/setup-tempfile
+
+ar=()
+while read n s ; do
+	ar+=($n "$s")
+done < /usr/local/share/radiolist
+
+dialog --clear --cancel-label "OFF" --menu "Stations" 0 0 0 "${ar[@]}" 2> $tempfile
+retval=$?
+case $retval in
+	$DIALOG_CANCEL)
+		killall mpg123 ; exit 0;;
+esac
+mpg123 -C -q -@ `cat $tempfile` &
+reset
+sleep 1s
+clear
+echo
+echo "Now playing: `cat $tempfile`"
+read -n1 -p "Do you want an alias for this station? (y/N)"
+echo
+if [ $REPLY = 'y' ]; then
+	echo "Enter a name for the alias: "
+	read nalias
+	echo "alias $nalias='mpg123 -C -q -@ `cat $tempfile`'"  >> ~/.bash_aliases
+	echo "Alias $nalias added."
+	bash
+fi
+exit 0
+

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+src=https://github.com/AladW/bbqtools.git
+ver=201405
+sign=no
+DEBFULLNAME=griller
+DEBEMAIL=bbq
+
+if [[ ! -d bbqtools-$ver ]]; then
+   git clone $src && \
+   mv bbqtools bbqtools-$ver && \
+   cd bbqtools-$ver
+else
+   cd bbqtools-$ver && \
+   git pull $src
+fi
+
+dch --local ~bbq+ --distribution unstable "Roasted for LinuxBBQ."
+dh_make --createorig -s
+
+if [[ $sign == yes ]]; then
+  dpkg-buildpackage
+else
+  dpkg-buildpackage -us -uc
+fi
+

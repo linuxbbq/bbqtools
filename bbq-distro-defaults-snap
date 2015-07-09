@@ -1,0 +1,9 @@
+#!/bin/sh
+sudo nano /home/work/myfs/etc/issue
+sudo nano /home/work/myfs/etc/lsb-release 
+sudo nano /home/work/myfs/etc/os-release
+sudo nano /home/work/myfs/etc/live-installer/install.conf 
+sudo nano /home/work/myfs/usr/lib/bbqsnapshot/iso/isolinux/isolinux.cfg 
+sudo nano /home/work/myfs/etc/network/interfaces
+sudo nano /home/work/myfs/etc/default/grub.d/linuxbbq.cfg
+sudo ncdu /home/work/myfs/

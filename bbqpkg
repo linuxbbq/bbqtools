@@ -1,0 +1,30 @@
+#!/bin/bash
+# wrapper for frenchmaid, rempkg, inspkg, get-kernel, kernel-remover, orphaner
+. /usr/share/doc/dialog/examples/setup-vars
+. /usr/share/doc/dialog/examples/setup-tempfile
+
+dialog --title "BBQ Package Management" --menu "Please select an action. Keep your password ready!" 0 0 0 \
+"frenchmaid" "Clean up log files and backups" \
+"rempkg" "Remove packages quickly" \
+"inspkg" "Install packages from experimental" \
+"get-kernel" "Install kernels" \
+"kernel-remover" "Remove unused kernels" \
+"orphaner" "Remove orphaned packages" \
+"Exit" "Exit BBQPKG" 2> $tempfile
+
+retval=$?
+case $retval in
+	$DIALOG_CANCEL)
+		exit 0;;
+esac
+menu=$(<"$tempfile")
+case $menu in
+ "frenchmaid") frenchmaid;;
+ "rempkg") rempkg;;
+ "inspkg") inspkg;;
+ "get-kernel") get-kernel;;
+ "kernel-remover") sudo kernel-remover;;
+ "orphaner") sudo orphaner --purge;;
+ "Exit") exit 0;;
+esac
+bbqpkg

@@ -1,0 +1,365 @@
+#!/bin/bash
+
+# The BBQ CLI Menu
+# May-July 2013 <bacon@linuxbbq.org>
+# this time only depending on dialog
+
+# set fancy colors
+# using .dialogrc
+
+# set var
+INPUT=/tmp/menu.sh.$$
+
+# set function for upgrade warning
+function upgrade(){
+	#wget http://linuxbbq.org/feed_format.txt -O /tmp/feed_format.txt
+	#dialog --backtitle "LinuxBBQ - Bork Your Own" --title "Upgrade warnings" --textbox /tmp/feed_format.txt 0 0
+	#rm /tmp/feed_format.txt
+	newsbeuter 
+}
+
+# bbq system hospital
+function bbqfix(){
+dialog --backtitle "LinuxBBQ - Start" --title "System Hospital" --menu " \n" 0 0 0 \
+	1 "Configure network" \
+	2 "Install APT listbugs" \
+	3 "Update and Upgrade" \
+	a "Set timezone" \
+	k "Set keymap" \
+	l "Set localization" \
+	c "Reset and fix soundcard" \
+	C "Fix Maestro and ESS soundcards" \
+	d "Edit sources.list" \
+	e "Update GRUB2" \
+	f "Repair GRUB" \
+	g "Remove unused kernels" \
+	A "Get kernels" \
+	B "Frenchmaid System Cleaner" \
+	i "Reconfigure all packages through dpkg" \
+	j "Update application alternatives" \
+	m "Configure and check network" \
+	n "Edit HOSTS file" \
+	o "Add adblocking to HOSTS file" \
+	p "Run testdisk to repair hard drives" \
+	r "Install nVidia drivers" \
+	s "Edit Sources List" \
+	t "Edit GRUB file" \
+	u "Change Distro Defaults" \
+	v "Install localepurge and remove unused locales" \
+	w "Remove orphaned packages" \
+	S "Create a snapshot of the running system" \
+	b "Back to Main" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	2) sudo apt-get update && sudo apt-get install apt-listbugs ;;
+	3) sudo apt-get update && sudo apt-get dist-upgrade ;;
+	A) get-kernel ;;
+	B) frenchmaid ;;
+	D) sudo chkrootkit && read ;;
+	S) sudo bbqsnapshot;;
+	1) sudo ceni;;
+	w) sudo orphaner;;
+	v) sudo apt-get install localepurge && sudo localepurge;;
+	h) bbqcups;;
+	i) sudo dpkg-reconfigure --all;;
+	j) sudo update-alternatives --all;;
+	k) sudo dpkg-reconfigure keyboard-configuration;;
+	l) sudo dpkg-reconfigure locales;;
+	m) sudo service networking restart && service network-manager restart;;
+	n) sudo nano /etc/hosts;;
+	o) sudo adblock-host;;
+	p) sudo testdisk;;
+	q) bbqasian;;
+	r) sudo bbqnvidia;;
+	s) sudo nano /etc/apt/sources.list.d/bbq.list;; 
+	t) sudo nano /etc/default/grub;;
+	u) sudo bbq-distro-defaults;;
+	a) sudo dpkg-reconfigure tzdata;;
+	b) sudo ntpdate 0.nl.pool.ntp.org;;
+	c) fixsnd;;
+	C) fixess;;
+	d) sudo nano /etc/apt/sources.list.d/bbq.list;;
+	e) sudo update-grub;;
+	f) sudo grubrepair;;
+	g) sudo kernel-remover -F text;;
+	b) main;;
+	x) exit 0;;
+esac
+bbqfix
+}
+
+# set function for the office menu
+function office(){
+dialog --backtitle "LinuxBBQ - Start" --title "Office" --menu " \n" 0 0 0 \
+	W "Word Processor" \
+	S "Spreadsheet" \
+	N "Newsreader" \
+	a "Address Book" \
+	d "Calendar" \
+	c "Calculator" \
+	t "To Do" \
+	p "Personal Information Manager" \
+	b "Back to Main" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	W) mcedit;;
+	S) sc;;
+	E) mutt;;
+	N) newsbeuter;;
+	A) alsamixer;;
+	r) bbqradio;;
+	m) mocp -T slob;;
+	T) tv;;
+	l) shell-fm;;
+	a) abook;;
+	c) bc;;
+	t) calcurse;;
+	p) tina;;
+	d) wyrd;;
+	b) main;;
+	x) exit 0;;
+esac
+office
+}
+	
+# media menu
+function media(){
+dialog --backtitle "LinuxBBQ - Start" --title "Multimedia" --menu " \n" 0 0 0 \
+	A "Alsamixer" \
+	r "Radio" \
+	R "Raffles Radio Player" \
+	c "CPlay" \
+	p "PMS" \
+	b "Back to Main" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	p) pms;;
+	R) raffles;;
+	A) alsamixer;;
+	r) bbqradio;;
+	c) cplay;;
+	T) tv;;
+	b) main;;
+	x) exit 0;;
+esac
+media
+}
+
+# Network Menu
+function network(){
+dialog --backtitle "LinuxBBQ - Start" --title "Network" --menu " \n" 0 0 0 \
+	d "Network Usage Monitor" \
+	o "ctorrent" \
+	w "Browser" \
+	i "IRC Client" \
+	n "Newsreader" \
+	t "iftop NIC Viewer" \
+	b "Back to Main" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	o) man ctorrent;;
+	w) links2 www.startpage.com ;;
+	i) irssi;;
+	t) sudo iftop;;
+	c) centerim;;
+	e) mutt;;
+	n) newsbeuter;;
+	b) main;;
+	x) exit 0;;
+	d) nload;;
+esac
+network
+}
+
+function secsys(){
+dialog --backtitle "LinuxBBQ - Start" --title "Security and System" --menu " \n" 0 0 0 \
+	p "passwux" \
+	S "bbqsnapshot" \
+	I "bbqinstaller !!!run in LIVE session ONLY!!!" \
+        b "Back to Main" \
+        x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	p) passwux && read n ;;
+	S) sudo bbqsnapshot;;
+	I) sudo bbqinstaller;;
+	c) cpm;;
+	a) man aircrack-ng;;
+	j) man john;;
+	s) man sucrack;;
+	b) main;;
+	x) exit 0;;
+esac
+secsys
+}
+
+function hobby(){
+dialog --backtitle "LinuxBBQ - Start" --title "Hobby" --menu " \n" 0 0 0 \
+	n "nut nutrition" \
+	h "notebook" \
+	c "piano reference" \
+	d "Debian Administrators Handbook" \
+	b "Back to Main" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	d) links2 http://debian-handbook.info;;
+	c) chords;;
+	n) nut-nutrition;;
+	h) hnb;;
+        b) main;;
+        x) exit 0;;
+esac
+hobby
+}
+
+
+# accessories
+function acc(){
+dialog --backtitle "LinuxBBQ - Start" --title "Accessories" --menu " \n" 0 0 0 \
+	B "bbqqit Grillers Hub" \
+	m "Midnight Commander" \
+	r "Ranger" \
+	p "Powertop" \
+	h "htop Process Monitor"\
+	t "Multitail Log Viewer" \
+	d "Disk Usage" \
+	b "Back to Main" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	B) bbqgit;;
+	u) hexcurse;;
+	j) joe;;
+	f) vifm;;
+	p) sudo powertop;;
+	t) multitail;;
+	m) mc;;
+	g) glances;;
+	r) ranger;;
+	v) vi;;
+	e) nano;;
+	h) htop;;
+	d) ncdu;;
+	b) main;;
+	x) exit 0;;
+esac
+acc
+}
+
+# games
+function games(){
+dialog --backtitle "LinuxBBQ - Start" --title "Games" --menu " \n" 0 0 0 \
+	G "Curse of War" \
+	b "Cavez Of Phear" \
+	C "Scribble" \
+	a "bastet" \
+	A "empire" \
+	F "rogue" \
+	c "ninvaders" \
+	d "freesweep"\
+	e "pacman" \
+	f "adventure" \
+	g "phantasia" \
+	h "worm" \
+	i "cribbage" \
+	j "snake" \
+	k "wargames" \
+	l "sail" \
+	m "robots" \
+	n monop \
+	o boggle \
+	p hangman \
+	q hack \
+	r backgammon \
+	s mille \
+	t canfield \
+	u wump \
+	v tetris \
+	w gomoku \
+	y trek \
+	z battlestar \
+	B "Back to Main" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	G) curseofwar;;
+	C) scribble;;
+	b) phear;;
+	a) bastet;;
+	F) rogue;;
+	A) empire;;
+	c) ninvaders;;
+	d) freesweep;;
+	e) pacman;;
+	f) adventure;;
+	g) phantasia;;
+	h) worm;;
+	i) cribbage;;
+	j) snake;;
+	k) clear && wargames && read ;;
+	l) sail;;
+	m) robots;;
+	n) monop;;
+	o) boggle;;
+	p) hangman;;
+	q) hack;;
+	r) backgammon;;
+	s) mille;;
+	t) canfield;;
+	u) wump;;
+	v) tetris;;
+	w) gomoku;;
+	y) trek;;
+	z) battlestar;;
+	B) main;;
+	x) exit 0;;
+esac
+games
+}
+
+# main selection
+function main(){
+dialog --backtitle "LinuxBBQ - Start" --title "Main Menu" --menu " \n" 0 0 0 \
+	f "Fix your system" \
+	u "Upgrade Warnings" \
+	a "Accessories" \
+	n "Network and Chat" \
+	o "Office" \
+	m "Multimedia" \
+	h "Hobby" \
+	s "Security and System" \
+	l "Screensaver" \
+	9 "Reboot" \
+	0 "Power off" \
+	x "Exit BBQ Menu" 2>"${INPUT}"
+menuitem=$(<"${INPUT}")
+case $menuitem in
+	r) clear && cat /etc/motd | dialog --programbox 40 80;;
+	s) secsys;;
+	e) emu;;
+	l) termsaver sysmon;;
+	p) programming;;
+	f) bbqfix;;
+	u) upgrade ;;
+	a) acc ;;
+	n) network;;
+	o) office;;
+	m) media;;
+	h) hobby;;
+	g) games;;
+	9) systemctl reboot;;
+	0) systemctl poweroff;;
+	q) clear &&exit 0;;
+	x) clear &&exit 0;;
+esac
+main
+}
+
+main
+clear &&
+exit 0

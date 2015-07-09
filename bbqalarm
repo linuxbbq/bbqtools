@@ -1,0 +1,15 @@
+#!/bin/bash
+# simple bash alarm clock (milkteafuzz.com)
+
+echo "Alarm - accepts input"
+echo "like '23:00 today'"
+echo
+printf "Set alarm for: "
+read date
+echo Alarm set for $(date --date="$date").
+echo "Ctrl-c to cancel"
+sleep $(( $(date --date="$date" +%s) - $(date +%s) ));
+echo "Ring ring!"
+mpg123 -C -@ http://air.radiolla.com/ilma192k &
+
+
